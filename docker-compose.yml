@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  # MySQL Database Service
+  mysql:
+    image: giahuy1412/mysql-swd:latest
+    container_name: mysql-swd
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: login
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # Backend Service (Spring Boot)
+  backend:
+    image: giahuy1412/b_swd:v1.0.0  # Thay vì build, sử dụng image đã push
+    container_name: b_swd
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
